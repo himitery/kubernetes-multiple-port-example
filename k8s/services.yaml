@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-multiple-port-example
+spec:
+  selector:
+    app: kubernetes-multiple-port-example
+  ports:
+    - name: tcp
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+    - name: grpc
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+  type: LoadBalancer

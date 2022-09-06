@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubernetes-multiple-port-example-application
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: app.127.0.0.1.sslip.io
+      http:
+        paths:
+          - backend:
+              service:
+                name: kubernetes-multiple-port-example
+                port:
+                  name: tcp
+            pathType: Prefix
+            path: /
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubernetes-multiple-port-example-grpc
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - secretName: k8s-multi-ports-test-secret
+  rules:
+    - host: grpc.127.0.0.1.sslip.io
+      http:
+        paths:
+          - backend:
+              service:
+                name: kubernetes-multiple-port-example
+                port:
+                  name: grpc
+            pathType: Prefix
+            path: /

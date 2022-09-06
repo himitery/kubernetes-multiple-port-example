@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-multiple-port-example
+  labels:
+    app: kubernetes-multiple-port-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubernetes-multiple-port-example
+  template:
+    metadata:
+      labels:
+        app: kubernetes-multiple-port-example
+    spec:
+      containers:
+        - name: kubernetes-multiple-port-example
+          image: himitery/kubernetes-multiple-port-example:latest
+          ports:
+            - containerPort: 3000
+            - containerPort: 9000
